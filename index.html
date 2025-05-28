@@ -1,0 +1,3467 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bibliotheca - 專業購書平台</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --dark-gradient: linear-gradient(135deg, #2c3e50 0%, #4a6741 100%);
+            --gold-gradient: linear-gradient(135deg, #f7971e 0%, #ffd200 100%);
+            --purple-gradient: linear-gradient(135deg, #a855f7 0%, #e879f9 100%);
+            --green-gradient: linear-gradient(135deg, #56ab2f 0%, #a8e6cf 100%);
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --accent-color: #ff6b6b;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --error-color: #ef4444;
+            --text-dark: #2d3748;
+            --text-light: #718096;
+            --text-muted: #a0aec0;
+            --bg-light: #f7fafc;
+            --bg-secondary: #edf2f7;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07), 0 1px 3px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.04);
+            --border-radius: 16px;
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background: #ffffff;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* 頂部公告列 */
+        .announcement-bar {
+            background: var(--primary-gradient);
+            color: white;
+            text-align: center;
+            padding: 0.75rem;
+            font-size: 0.9rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .announcement-text {
+            animation: slideIn 20s linear infinite;
+        }
+
+        @keyframes slideIn {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* 導航列 */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(102, 126, 234, 0.1);
+            box-shadow: 0 2px 20px rgba(102, 126, 234, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .navbar.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 4px 30px rgba(102, 126, 234, 0.12);
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+            letter-spacing: -0.02em;
+            position: relative;
+        }
+
+        .logo::before {
+            content: '📚';
+            position: absolute;
+            left: -30px;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gold-gradient);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .search-toggle, .wishlist-btn, .user-profile, .compare-btn {
+            background: rgba(102, 126, 234, 0.08);
+            border: 1px solid rgba(102, 126, 234, 0.15);
+            color: var(--primary-color);
+            padding: 0.75rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1rem;
+            position: relative;
+        }
+
+        .search-toggle:hover, .wishlist-btn:hover, .user-profile:hover, .compare-btn:hover {
+            background: rgba(102, 126, 234, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .cart-icon {
+            position: relative;
+            background: var(--gold-gradient);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 16px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            box-shadow: var(--shadow-md);
+        }
+
+        .cart-icon:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .count-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--secondary-gradient);
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* 手機選單 */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-dark);
+        }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 80%;
+            height: 100vh;
+            background: white;
+            z-index: 2000;
+            transition: var(--transition);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .mobile-menu.open {
+            left: 0;
+        }
+
+        .mobile-menu-content {
+            padding: 2rem;
+        }
+
+        .mobile-nav-links {
+            list-style: none;
+            margin-top: 2rem;
+        }
+
+        .mobile-nav-links li {
+            margin-bottom: 1rem;
+        }
+
+        .mobile-nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-size: 1.1rem;
+            font-weight: 500;
+            display: block;
+            padding: 1rem;
+            border-radius: 12px;
+            transition: var(--transition);
+        }
+
+        .mobile-nav-links a:hover {
+            background: var(--bg-light);
+            color: var(--primary-color);
+        }
+
+        /* 主要內容區域 */
+        .main-content {
+            background: white;
+        }
+
+        /* 英雄區塊 */
+        .hero {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 6rem 3rem;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="a" cx="50%" cy="50%"><stop offset="0%" stop-color="rgba(255,255,255,0.1)"/><stop offset="100%" stop-color="rgba(255,255,255,0)"/></radialGradient></defs><circle cx="200" cy="200" r="100" fill="url(%23a)"/><circle cx="800" cy="300" r="150" fill="url(%23a)"/><circle cx="400" cy="700" r="120" fill="url(%23a)"/></svg>');
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 4px 8px rgba(0, 0, 0, 0.3);
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            opacity: 0.95;
+            margin-bottom: 3rem;
+            font-weight: 400;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 2.8rem;
+            font-weight: 800;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.95rem;
+            opacity: 0.85;
+        }
+
+        /* 進階搜尋區域 */
+        .search-container {
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .search-wrapper {
+            position: relative;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+        }
+
+        .search-wrapper:focus-within {
+            background: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1);
+        }
+
+        .search-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 1rem 1.5rem;
+            font-size: 1.1rem;
+            color: white;
+            outline: none;
+        }
+
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .search-filters {
+            display: flex;
+            gap: 0.5rem;
+            margin-right: 1rem;
+        }
+
+        .filter-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .filter-btn.active {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .search-btn {
+            background: var(--gold-gradient);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 16px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            box-shadow: var(--shadow-md);
+            white-space: nowrap;
+        }
+
+        .search-btn:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* 快速導航 */
+        .quick-nav {
+            background: var(--bg-light);
+            padding: 2rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .quick-nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .quick-nav-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            text-decoration: none;
+            color: var(--text-dark);
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+        }
+
+        .quick-nav-item:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+            color: var(--primary-color);
+        }
+
+        .quick-nav-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .quick-nav-text {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* 特色區塊 */
+        .features-section {
+            padding: 5rem 2rem;
+            background: #f8fafc;
+        }
+
+        .features-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .features-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .features-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 3rem 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-lg);
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--primary-gradient);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .feature-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .feature-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .feature-desc {
+            color: var(--text-light);
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+
+        /* 分類標籤升級 */
+        .categories {
+            padding: 4rem 2rem;
+            background: white;
+        }
+
+        .categories-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .categories-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .categories-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-light);
+        }
+
+        .categories-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .category-tabs {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .category-tab {
+            background: rgba(102, 126, 234, 0.1);
+            border: 2px solid transparent;
+            padding: 1rem 2rem;
+            border-radius: 16px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .category-tab::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--primary-gradient);
+            transition: var(--transition);
+            z-index: -1;
+        }
+
+        .category-tab:hover::before,
+        .category-tab.active::before {
+            left: 0;
+        }
+
+        .category-tab.active,
+        .category-tab:hover {
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .sort-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .sort-select {
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            background: white;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .sort-select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .view-toggle {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .view-btn {
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            background: white;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .view-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        /* 書籍網格 */
+        .books-section {
+            padding: 0 2rem 5rem;
+            background: white;
+        }
+
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .books-grid.list-view {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .book-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            transition: var(--transition);
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .book-card:hover {
+            transform: translateY(-8px) scale(1.01);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .book-card.list-view {
+            display: flex;
+            align-items: center;
+            padding: 1.5rem;
+        }
+
+        .book-card.list-view .book-cover {
+            width: 120px;
+            height: 160px;
+            margin-right: 2rem;
+            flex-shrink: 0;
+        }
+
+        .book-card.list-view .book-info {
+            flex: 1;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 160px;
+        }
+
+        .book-card.list-view .book-footer {
+            margin-top: auto;
+        }
+
+        .book-cover {
+            width: 100%;
+            height: 280px;
+            background: var(--primary-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.3rem;
+            font-weight: 700;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .book-cover::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1), transparent);
+        }
+
+        .book-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--secondary-gradient);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 2;
+        }
+
+        .wishlist-btn-card {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            padding: 0.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1.2rem;
+            z-index: 2;
+        }
+
+        .wishlist-btn-card:hover {
+            background: white;
+            transform: scale(1.1);
+        }
+
+        .wishlist-btn-card.active {
+            color: var(--accent-color);
+        }
+
+        .book-info {
+            padding: 1.5rem;
+        }
+
+        .book-category {
+            color: var(--primary-color);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .book-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+            line-height: 1.3;
+        }
+
+        .book-author {
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .book-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .book-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+
+        .stars {
+            color: #fbbf24;
+            font-size: 1.1rem;
+        }
+
+        .rating-text {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .book-price {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--primary-color);
+        }
+
+        .price-original {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            text-decoration: line-through;
+            margin-left: 0.5rem;
+        }
+
+        .add-to-cart {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            box-shadow: var(--shadow-md);
+            white-space: nowrap;
+        }
+
+        .add-to-cart:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .add-to-cart.added {
+            background: var(--success-color);
+        }
+
+        .compare-btn-card, .preview-btn {
+            background: rgba(102, 126, 234, 0.1);
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            color: var(--primary-color);
+            padding: 1rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+
+        .compare-btn-card:hover, .preview-btn:hover {
+            background: rgba(102, 126, 234, 0.2);
+        }
+
+        /* 購物車面板 */
+        .cart-panel {
+            position: fixed;
+            top: 0;
+            right: -500px;
+            width: 500px;
+            height: 100vh;
+            background: white;
+            box-shadow: -10px 0 50px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+            z-index: 2000;
+            overflow-y: auto;
+            border-left: 1px solid var(--border-color);
+        }
+
+        .cart-panel.open {
+            right: 0;
+        }
+
+        .cart-header {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .cart-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .close-cart {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .close-cart:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .cart-items {
+            padding: 1.5rem;
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-light);
+        }
+
+        .empty-cart-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .cart-item:hover {
+            background: var(--bg-light);
+        }
+
+        .cart-item-cover {
+            width: 80px;
+            height: 100px;
+            background: var(--primary-gradient);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-title {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+        }
+
+        .cart-item-author {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .cart-item-price {
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .quantity-btn {
+            width: 36px;
+            height: 36px;
+            border: 1px solid var(--border-color);
+            background: white;
+            cursor: pointer;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            font-weight: 600;
+        }
+
+        .quantity-btn:hover {
+            background: var(--bg-light);
+            border-color: var(--primary-color);
+        }
+
+        .remove-btn {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .remove-btn:hover {
+            background: #ff5252;
+        }
+
+        .cart-summary {
+            padding: 2rem;
+            border-top: 2px solid var(--border-color);
+            background: var(--bg-light);
+            position: sticky;
+            bottom: 0;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .summary-row.total {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            border-top: 1px solid var(--border-color);
+            padding-top: 1rem;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            background: var(--gold-gradient);
+            color: white;
+            border: none;
+            padding: 1.5rem;
+            border-radius: 16px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            box-shadow: var(--shadow-md);
+            margin-top: 1rem;
+        }
+
+        .checkout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .checkout-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* 書籍詳情模態框 */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 3000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            backdrop-filter: blur(4px);
+        }
+
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-xl);
+            transform: scale(0.9);
+            transition: var(--transition);
+        }
+
+        .modal.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            padding: 2rem 2rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-light);
+            padding: 0.5rem;
+            border-radius: 8px;
+        }
+
+        .modal-close:hover {
+            background: var(--bg-light);
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .book-detail {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .book-detail-cover {
+            width: 200px;
+            height: 280px;
+            background: var(--primary-gradient);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.2rem;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .book-detail-info {
+            flex: 1;
+        }
+
+        .book-detail-title {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+        }
+
+        .book-detail-author {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+
+        .book-detail-meta {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .meta-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .meta-label {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .meta-value {
+            color: var(--text-light);
+        }
+
+        .book-detail-description {
+            line-height: 1.8;
+            color: var(--text-dark);
+            font-size: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .recommendations {
+            border-top: 1px solid var(--border-color);
+            padding-top: 2rem;
+        }
+
+        .recommendations-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .recommendations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .recommendation-item {
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            padding: 1rem;
+            border-radius: 12px;
+        }
+
+        .recommendation-item:hover {
+            background: var(--bg-light);
+        }
+
+        .recommendation-cover {
+            width: 100px;
+            height: 140px;
+            background: var(--accent-gradient);
+            border-radius: 8px;
+            margin: 0 auto 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8rem;
+            text-align: center;
+        }
+
+        .recommendation-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        /* 比較面板 */
+        .compare-panel {
+            position: fixed;
+            bottom: -300px;
+            left: 0;
+            right: 0;
+            height: 300px;
+            background: white;
+            box-shadow: 0 -10px 50px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+            z-index: 1500;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .compare-panel.open {
+            bottom: 0;
+        }
+
+        .compare-header {
+            background: var(--bg-light);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .compare-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .compare-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .compare-clear, .compare-close {
+            background: none;
+            border: 1px solid var(--border-color);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .compare-clear:hover, .compare-close:hover {
+            background: var(--bg-light);
+        }
+
+        .compare-content {
+            padding: 1rem 2rem;
+            height: calc(100% - 80px);
+            overflow-x: auto;
+        }
+
+        .compare-grid {
+            display: flex;
+            gap: 2rem;
+            min-width: max-content;
+        }
+
+        .compare-item {
+            min-width: 200px;
+            background: var(--bg-light);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .compare-item-cover {
+            width: 80px;
+            height: 100px;
+            background: var(--primary-gradient);
+            border-radius: 8px;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8rem;
+        }
+
+        .compare-item-title {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+        }
+
+        .compare-item-price {
+            color: var(--primary-color);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .compare-item-rating {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        /* 通知系統 */
+        .notification {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: white;
+            color: var(--text-dark);
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow-xl);
+            z-index: 3000;
+            transform: translateX(400px);
+            transition: var(--transition);
+            border-left: 4px solid var(--primary-color);
+            max-width: 350px;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            border-left-color: var(--success-color);
+        }
+
+        .notification.error {
+            border-left-color: var(--error-color);
+        }
+
+        .notification.warning {
+            border-left-color: var(--warning-color);
+        }
+
+        /* 頁腳 */
+        .footer {
+            background: var(--text-dark);
+            color: white;
+            padding: 4rem 2rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 2rem;
+            padding-top: 2rem;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            background: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        /* 遮罩層 */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1500;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            backdrop-filter: blur(4px);
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* 載入動畫 */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        .loading.dark {
+            border: 3px solid rgba(0,0,0,.3);
+            border-top-color: var(--primary-color);
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* 響應式設計 */
+        @media (max-width: 1024px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .mobile-menu {
+                display: block;
+            }
+            
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .hero-stats {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            
+            .cart-panel {
+                width: 100%;
+                right: -100%;
+            }
+            
+            .books-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 1.5rem;
+            }
+
+            .book-detail {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .book-detail-cover {
+                margin-bottom: 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 4rem 2rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .category-tabs {
+                gap: 0.5rem;
+                justify-content: center;
+            }
+            
+            .category-tab {
+                padding: 0.75rem 1.5rem;
+                font-size: 0.9rem;
+            }
+
+            .categories-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .sort-controls {
+                justify-content: center;
+            }
+
+            .quick-nav-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+
+            .modal-content {
+                margin: 1rem;
+                max-width: calc(100% - 2rem);
+            }
+        }
+
+        /* 滾動條自定義 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-light);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-gradient);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary-color);
+        }
+
+        /* 印刷樣式 */
+        @media print {
+            .navbar, .cart-panel, .notification, .overlay, .modal, .compare-panel {
+                display: none !important;
+            }
+            
+            .main-content {
+                margin: 0;
+                box-shadow: none;
+            }
+            
+            .book-card {
+                break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #ccc;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 頂部公告列 -->
+    <div class="announcement-bar">
+        <div class="announcement-text">
+            🎉 全館滿千免運費 | 📚 新會員註冊享9折優惠 | 🚚 24小時快速出貨 | ❤️ 30天無條件退換貨
+        </div>
+    </div>
+
+    <!-- 導航列 -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <a href="#" class="logo">Bibliotheca</a>
+                <ul class="nav-links">
+                    <li><a href="#home" data-section="home">首頁</a></li>
+                    <li><a href="#categories" data-section="categories">分類瀏覽</a></li>
+                    <li><a href="#bestsellers" data-section="bestsellers">暢銷排行</a></li>
+                    <li><a href="#new-releases" data-section="new-releases">新書發佈</a></li>
+                    <li><a href="#reviews" data-section="reviews">書評推薦</a></li>
+                    <li><a href="#events" data-section="events">活動專區</a></li>
+                    <li><a href="#about" data-section="about">關於我們</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <button class="search-toggle" onclick="toggleSearch()" title="搜尋">🔍</button>
+                    <button class="wishlist-btn" onclick="toggleWishlist()" title="願望清單">
+                        ❤️
+                        <span class="count-badge" id="wishlistCount">0</span>
+                    </button>
+                    <button class="compare-btn" onclick="toggleCompare()" title="比較商品">
+                        ⚖️
+                        <span class="count-badge" id="compareCount">0</span>
+                    </button>
+                    <button class="user-profile" onclick="showUserMenu()" title="會員中心">👤</button>
+                    <button class="cart-icon" onclick="toggleCart()">
+                        🛒 購物車
+                        <span class="count-badge" id="cartCount">0</span>
+                    </button>
+                </div>
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 手機選單 -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                <h3>選單</h3>
+                <button onclick="toggleMobileMenu()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">✕</button>
+            </div>
+            <ul class="mobile-nav-links">
+                <li><a href="#home" onclick="toggleMobileMenu()">🏠 首頁</a></li>
+                <li><a href="#categories" onclick="toggleMobileMenu()">📚 分類瀏覽</a></li>
+                <li><a href="#bestsellers" onclick="toggleMobileMenu()">🏆 暢銷排行</a></li>
+                <li><a href="#new-releases" onclick="toggleMobileMenu()">✨ 新書發佈</a></li>
+                <li><a href="#reviews" onclick="toggleMobileMenu()">📝 書評推薦</a></li>
+                <li><a href="#events" onclick="toggleMobileMenu()">🎪 活動專區</a></li>
+                <li><a href="#about" onclick="toggleMobileMenu()">ℹ️ 關於我們</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 主要內容 -->
+    <div class="main-content">
+        <!-- 英雄區塊 -->
+        <section class="hero" id="home">
+            <div class="hero-content">
+                <h1>探索無限知識宇宙</h1>
+                <p>精選全球優質書籍，為您打造專屬的閱讀體驗。從經典文學到前沿科技，這裡有您需要的一切知識寶藏。</p>
+                
+                <div class="hero-stats">
+                    <div class="stat-item" onclick="showStats('books')">
+                        <span class="stat-number" id="totalBooks">50,000+</span>
+                        <span class="stat-label">精選書籍</span>
+                    </div>
+                    <div class="stat-item" onclick="showStats('readers')">
+                        <span class="stat-number" id="totalReaders">12,000+</span>
+                        <span class="stat-label">滿意讀者</span>
+                    </div>
+                    <div class="stat-item" onclick="showStats('categories')">
+                        <span class="stat-number" id="totalCategories">50+</span>
+                        <span class="stat-label">專業分類</span>
+                    </div>
+                    <div class="stat-item" onclick="showStats('service')">
+                        <span class="stat-number">24/7</span>
+                        <span class="stat-label">全天候服務</span>
+                    </div>
+                </div>
+
+                <div class="search-container">
+                    <div class="search-wrapper">
+                        <input type="text" class="search-input" placeholder="搜尋書名、作者、ISBN 或關鍵字..." id="searchInput">
+                        <div class="search-filters">
+                            <button class="filter-btn active" data-filter="all">全部</button>
+                            <button class="filter-btn" data-filter="title">書名</button>
+                            <button class="filter-btn" data-filter="author">作者</button>
+                            <button class="filter-btn" data-filter="isbn">ISBN</button>
+                        </div>
+                        <button class="search-btn" onclick="searchBooks()">
+                            <span class="search-text">搜尋</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 快速導航 -->
+        <section class="quick-nav">
+            <div class="quick-nav-grid">
+                <a href="#bestsellers" class="quick-nav-item">
+                    <span class="quick-nav-icon">🏆</span>
+                    <span class="quick-nav-text">暢銷排行</span>
+                </a>
+                <a href="#new-releases" class="quick-nav-item">
+                    <span class="quick-nav-icon">✨</span>
+                    <span class="quick-nav-text">新書發佈</span>
+                </a>
+                <a href="#discounts" class="quick-nav-item">
+                    <span class="quick-nav-icon">💰</span>
+                    <span class="quick-nav-text">優惠專區</span>
+                </a>
+                <a href="#reviews" class="quick-nav-item">
+                    <span class="quick-nav-icon">📝</span>
+                    <span class="quick-nav-text">書評推薦</span>
+                </a>
+                <a href="#events" class="quick-nav-item">
+                    <span class="quick-nav-icon">🎪</span>
+                    <span class="quick-nav-text">活動專區</span>
+                </a>
+                <a href="#gift-cards" class="quick-nav-item">
+                    <span class="quick-nav-icon">🎁</span>
+                    <span class="quick-nav-text">禮品卡</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- 特色服務區塊 -->
+        <section class="features-section">
+            <div class="features-header">
+                <h2 class="features-title">為什麼選擇我們</h2>
+                <p class="features-subtitle">我們致力於提供最優質的閱讀體驗，讓每一次購書都成為愉快的旅程</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <span class="feature-icon">🚚</span>
+                    <h3 class="feature-title">極速配送</h3>
+                    <p class="feature-desc">24小時內快速出貨，全台免運費配送到府。急需書籍？我們提供當日達服務，讓您快速擁有心愛的書籍。</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🎯</span>
+                    <h3 class="feature-title">個人化推薦</h3>
+                    <p class="feature-desc">AI智能分析您的閱讀偏好，為您推薦最適合的書籍。根據購買歷史和評分，發現更多符合您興趣的好書。</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">💎</span>
+                    <h3 class="feature-title">品質保證</h3>
+                    <p class="feature-desc">嚴選優質出版社，提供原版正品書籍。所有商品都經過品質檢驗，支持30天無理由退換貨保證。</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🏆</span>
+                    <h3 class="feature-title">會員特權</h3>
+                    <p class="feature-desc">VIP會員享受額外折扣、優先購買新書、專屬客服、生日優惠等多重特權。累積消費還可升級會員等級。</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">📱</span>
+                    <h3 class="feature-title">多平台支援</h3>
+                    <p class="feature-desc">支援網頁、手機APP、平板等多種設備。雲端同步您的書單、筆記和閱讀進度，隨時隨地享受閱讀樂趣。</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">💬</span>
+                    <h3 class="feature-title">社群互動</h3>
+                    <p class="feature-desc">加入讀書會、參與書評討論、分享閱讀心得。與志同道合的書友們交流，讓閱讀成為社交體驗。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 分類區域 -->
+        <section class="categories" id="categories">
+            <div class="container">
+                <div class="categories-header">
+                    <h2 class="categories-title">精選書籍分類</h2>
+                    <p class="categories-subtitle">探索不同領域的知識寶藏，找到您感興趣的內容</p>
+                </div>
+                
+                <div class="categories-controls">
+                    <div class="category-tabs">
+                        <button class="category-tab active" onclick="filterBooks('all')" data-category="all">
+                            🌟 全部書籍
+                        </button>
+                        <button class="category-tab" onclick="filterBooks('fiction')" data-category="fiction">
+                            📚 文學小說
+                        </button>
+                        <button class="category-tab" onclick="filterBooks('business')" data-category="business">
+                            💼 商業理財
+                        </button>
+                        <button class="category-tab" onclick="filterBooks('tech')" data-category="tech">
+                            💻 科技程式
+                        </button>
+                        <button class="category-tab" onclick="filterBooks('history')" data-category="history">
+                            🏛️ 歷史人文
+                        </button>
+                        <button class="category-tab" onclick="filterBooks('art')" data-category="art">
+                            🎨 藝術設計
+                        </button>
+                        <button class="category-tab" onclick="filterBooks('health')" data-category="health">
+                            🏃‍♂️ 健康生活
+                        </button>
+                        <button class="category-tab" onclick="filterBooks('psychology')" data-category="psychology">
+                            🧠 心理學
+                        </button>
+                        <button class="category-tab" onclick="filterBooks('science')" data-category="science">
+                            🔬 科學研究
+                        </button>
+                        <button class="category-tab" onclick="filterBooks('education')" data-category="education">
+                            🎓 教育學習
+                        </button>
+                    </div>
+                    
+                    <div class="sort-controls">
+                        <select class="sort-select" id="sortSelect" onchange="sortBooks(this.value)">
+                            <option value="default">預設排序</option>
+                            <option value="price-low">價格：低到高</option>
+                            <option value="price-high">價格：高到低</option>
+                            <option value="rating">評分：高到低</option>
+                            <option value="newest">出版時間：新到舊</option>
+                            <option value="popular">人氣：高到低</option>
+                            <option value="discount">折扣：高到低</option>
+                        </select>
+                        
+                        <div class="view-toggle">
+                            <button class="view-btn active" onclick="toggleView('grid')" title="網格檢視">⊞</button>
+                            <button class="view-btn" onclick="toggleView('list')" title="列表檢視">☰</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 書籍展示區 -->
+        <section class="books-section">
+            <div class="books-grid" id="booksGrid">
+                <!-- 書籍會通過 JavaScript 動態載入 -->
+            </div>
+            
+            <div style="text-align: center; margin-top: 3rem;">
+                <button class="add-to-cart" onclick="loadMoreBooks()" id="loadMoreBtn">
+                    載入更多書籍
+                </button>
+            </div>
+        </section>
+    </div>
+
+    <!-- 購物車面板 -->
+    <div class="cart-panel" id="cartPanel">
+        <div class="cart-header">
+            <h3 class="cart-title">🛒 購物車</h3>
+            <button class="close-cart" onclick="toggleCart()">✕</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <div class="empty-cart" id="emptyCart">
+                <div class="empty-cart-icon">🛒</div>
+                <h3>購物車是空的</h3>
+                <p>快去挑選您喜愛的書籍吧！</p>
+            </div>
+        </div>
+        <div class="cart-summary" id="cartSummary" style="display: none;">
+            <div class="summary-row">
+                <span>商品小計：</span>
+                <span id="subtotal">NT$ 0</span>
+            </div>
+            <div class="summary-row">
+                <span>運費：</span>
+                <span id="shipping">免運費</span>
+            </div>
+            <div class="summary-row">
+                <span>會員折扣：</span>
+                <span id="memberDiscount">-NT$ 0</span>
+            </div>
+            <div class="summary-row">
+                <span>優惠券：</span>
+                <span id="couponDiscount">-NT$ 0</span>
+            </div>
+            <div class="summary-row total">
+                <span>總計：</span>
+                <span id="totalPrice">NT$ 0</span>
+            </div>
+            <button class="checkout-btn" onclick="checkout()">
+                💳 立即結帳
+            </button>
+        </div>
+    </div>
+
+    <!-- 書籍詳情模態框 -->
+    <div class="modal" id="bookModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">書籍詳情</h3>
+                <button class="modal-close" onclick="closeModal('bookModal')">✕</button>
+            </div>
+            <div class="modal-body" id="bookModalBody">
+                <!-- 內容會動態載入 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 比較面板 -->
+    <div class="compare-panel" id="comparePanel">
+        <div class="compare-header">
+            <h3 class="compare-title">📊 書籍比較</h3>
+            <div class="compare-actions">
+                <button class="compare-clear" onclick="clearCompare()">清空</button>
+                <button class="compare-close" onclick="toggleCompare()">關閉</button>
+            </div>
+        </div>
+        <div class="compare-content">
+            <div class="compare-grid" id="compareGrid">
+                <!-- 比較項目會動態載入 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 頁腳 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>📚 Bibliotheca</h3>
+                <p>我們致力於為每位讀者提供最優質的閱讀體驗，讓知識的力量改變世界。</p>
+                <div class="social-links">
+                    <a href="#" class="social-link">📘</a>
+                    <a href="#" class="social-link">📷</a>
+                    <a href="#" class="social-link">🐦</a>
+                    <a href="#" class="social-link">📺</a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>快速連結</h3>
+                <ul class="footer-links">
+                    <li><a href="#home">首頁</a></li>
+                    <li><a href="#categories">分類瀏覽</a></li>
+                    <li><a href="#bestsellers">暢銷排行</a></li>
+                    <li><a href="#new-releases">新書發佈</a></li>
+                    <li><a href="#reviews">書評推薦</a></li>
+                    <li><a href="#events">活動專區</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>客戶服務</h3>
+                <ul class="footer-links">
+                    <li><a href="#help">幫助中心</a></li>
+                    <li><a href="#contact">聯絡我們</a></li>
+                    <li><a href="#shipping">配送資訊</a></li>
+                    <li><a href="#returns">退換貨政策</a></li>
+                    <li><a href="#faq">常見問題</a></li>
+                    <li><a href="#privacy">隱私政策</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>會員服務</h3>
+                <ul class="footer-links">
+                    <li><a href="#account">我的帳戶</a></li>
+                    <li><a href="#orders">訂單查詢</a></li>
+                    <li><a href="#wishlist">願望清單</a></li>
+                    <li><a href="#points">積分兌換</a></li>
+                    <li><a href="#membership">會員等級</a></li>
+                    <li><a href="#newsletter">電子報訂閱</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Bibliotheca. 版權所有 | 服務條款 | 隱私政策</p>
+            <p>📞 客服專線：0800-123-456 | 📧 service@bibliotheca.com</p>
+        </div>
+    </footer>
+
+    <!-- 遮罩層 -->
+    <div class="overlay" id="overlay" onclick="closeAllPanels()"></div>
+
+    <!-- 通知系統 -->
+    <div class="notification" id="notification">
+        <span id="notificationText"></span>
+    </div>
+
+    <script>
+        // 完整的書籍資料庫
+        const books = [
+            {
+                id: 1, 
+                title: "JavaScript 權威指南", 
+                author: "David Flanagan", 
+                price: 1200, 
+                originalPrice: 1500,
+                category: "tech", 
+                rating: 4.8,
+                reviews: 245,
+                description: "全面深入的 JavaScript 學習聖經，從基礎語法到高級應用，涵蓋ES6+新特性、異步程式設計、DOM操作、網頁API等核心內容。",
+                badge: "暢銷",
+                inStock: true,
+                publishYear: 2023,
+                isbn: "9789863125617",
+                pages: 1048,
+                publisher: "歐萊禮",
+                language: "繁體中文"
+            },
+            {
+                id: 2, 
+                title: "百年孤寂", 
+                author: "加布列·加西亞·馬奎斯", 
+                price: 420, 
+                originalPrice: 500,
+                category: "fiction", 
+                rating: 4.9,
+                reviews: 1205,
+                description: "魔幻寫實主義的經典之作，探討拉丁美洲的歷史與命運。透過布恩迪亞家族七代人的興衰，映射出整個拉丁美洲的百年滄桑。",
+                badge: "經典",
+                inStock: true,
+                publishYear: 2022,
+                isbn: "9789571374420",
+                pages: 496,
+                publisher: "志文",
+                language: "繁體中文"
+            },
+            {
+                id: 3, 
+                title: "富爸爸窮爸爸", 
+                author: "羅伯特·清崎", 
+                price: 350, 
+                originalPrice: 450,
+                category: "business", 
+                rating: 4.6,
+                reviews: 892,
+                description: "改變財富觀念的理財啟蒙書，教你如何讓錢為你工作。透過兩個爸爸的對比，揭示富人與窮人思維的根本差異。",
+                badge: "熱門",
+                inStock: true,
+                publishYear: 2023,
+                isbn: "9789861304625",
+                pages: 320,
+                publisher: "高寶",
+                language: "繁體中文"
+            },
+            {
+                id: 4, 
+                title: "人類大歷史", 
+                author: "哈拉瑞", 
+                price: 560, 
+                originalPrice: 680,
+                category: "history", 
+                rating: 4.7,
+                reviews: 1456,
+                description: "從石器時代到21世紀，人類文明發展的宏觀史詩。探討認知革命、農業革命、科學革命如何塑造現代人類社會。",
+                badge: "推薦",
+                inStock: true,
+                publishYear: 2022,
+                isbn: "9789862622391",
+                pages: 512,
+                publisher: "天下文化",
+                language: "繁體中文"
+            },
+            {
+                id: 5, 
+                title: "設計心理學", 
+                author: "唐納德·諾曼", 
+                price: 480, 
+                originalPrice: 580,
+                category: "art", 
+                rating: 4.5,
+                reviews: 334,
+                description: "探討設計與人類心理的深層關係，提升用戶體驗設計。從認知心理學角度分析好設計的原則與方法。",
+                badge: "新書",
+                inStock: true,
+                publishYear: 2024,
+                isbn: "9789862624981",
+                pages: 368,
+                publisher: "遠流",
+                language: "繁體中文"
+            },
+            {
+                id: 6, 
+                title: "React 實戰開發", 
+                author: "Alex Banks & Eve Porcello", 
+                price: 890, 
+                originalPrice: 1100,
+                category: "tech", 
+                rating: 4.6,
+                reviews: 567,
+                description: "掌握現代前端開發框架，建構高效能的網頁應用程式。涵蓋Hooks、Context、Redux等進階主題。",
+                badge: "熱門",
+                inStock: true,
+                publishYear: 2024,
+                isbn: "9789864344871",
+                pages: 456,
+                publisher: "碁峰",
+                language: "繁體中文"
+            },
+            {
+                id: 7, 
+                title: "挪威的森林", 
+                author: "村上春樹", 
+                price: 380, 
+                originalPrice: 450,
+                category: "fiction", 
+                rating: 4.4,
+                reviews: 2103,
+                description: "青春與愛情的經典小說，探討現代人的孤獨與成長。透過渡邊徹的視角，描繪60年代日本青年的迷惘與追尋。",
+                badge: "經典",
+                inStock: true,
+                publishYear: 2023,
+                isbn: "9789573333265",
+                pages: 384,
+                publisher: "皇冠",
+                language: "繁體中文"
+            },
+            {
+                id: 8, 
+                title: "思考，快與慢", 
+                author: "丹尼爾·康納曼", 
+                price: 450, 
+                originalPrice: 550,
+                category: "psychology", 
+                rating: 4.8,
+                reviews: 1834,
+                description: "諾貝爾經濟學獎得主的認知心理學經典，改變你的思考方式。深入解析系統1和系統2的思考模式。",
+                badge: "暢銷",
+                inStock: true,
+                publishYear: 2023,
+                isbn: "9789862418369",
+                pages: 688,
+                publisher: "天下文化",
+                language: "繁體中文"
+            },
+            {
+                id: 9, 
+                title: "中國通史", 
+                author: "錢穆", 
+                price: 680, 
+                originalPrice: 800,
+                category: "history", 
+                rating: 4.7,
+                reviews: 756,
+                description: "史學大師錢穆的經典著作，深入淺出的中國歷史巨著。從上古時代到近代，全面梳理中華文明發展脈絡。",
+                badge: "經典",
+                inStock: true,
+                publishYear: 2022,
+                isbn: "9789571926851",
+                pages: 896,
+                publisher: "東大",
+                language: "繁體中文"
+            },
+            {
+                id: 10, 
+                title: "美の歷程", 
+                author: "李澤厚", 
+                price: 320, 
+                originalPrice: 400,
+                category: "art", 
+                rating: 4.6,
+                reviews: 445,
+                description: "中國美學思想的經典論述，從古代到現代的美學發展。探討中國藝術的哲學內涵與文化意義。",
+                badge: "推薦",
+                inStock: true,
+                publishYear: 2023,
+                isbn: "9789571185729",
+                pages: 288,
+                publisher: "三民",
+                language: "繁體中文"
+            },
+            {
+                id: 11, 
+                title: "原子習慣", 
+                author: "詹姆斯·克利爾", 
+                price: 380, 
+                originalPrice: 480,
+                category: "psychology", 
+                rating: 4.9,
+                reviews: 2567,
+                description: "微小改變帶來巨大成就的實證法則，建立良好習慣的科學方法。1%的改善能帶來37倍的成長。",
+                badge: "暢銷",
+                inStock: true,
+                publishYear: 2024,
+                isbn: "9789861344225",
+                pages: 304,
+                publisher: "方智",
+                language: "繁體中文"
+            },
+            {
+                id: 12, 
+                title: "Python 自動化實戰", 
+                author: "Al Sweigart", 
+                price: 750, 
+                originalPrice: 900,
+                category: "tech", 
+                rating: 4.5,
+                reviews: 678,
+                description: "用 Python 實現工作自動化，提高效率的實用程式設計指南。涵蓋檔案處理、網頁爬蟲、Excel操作等實用技巧。",
+                badge: "實用",
+                inStock: true,
+                publishYear: 2024,
+                isbn: "9789864768745",
+                pages: 512,
+                publisher: "碁峰",
+                language: "繁體中文"
+            },
+            {
+                id: 13, 
+                title: "正念冥想", 
+                author: "喬·卡巴金", 
+                price: 360, 
+                originalPrice: 450,
+                category: "health", 
+                rating: 4.4,
+                reviews: 523,
+                description: "透過正念練習獲得內心平靜，改善身心健康的冥想指南。結合現代心理學與古老智慧的實用方法。",
+                badge: "療癒",
+                inStock: true,
+                publishYear: 2023,
+                isbn: "9789863843047",
+                pages: 256,
+                publisher: "野人",
+                language: "繁體中文"
+            },
+            {
+                id: 14, 
+                title: "投資心理學", 
+                author: "丹尼爾·卡尼曼", 
+                price: 520, 
+                originalPrice: 640,
+                category: "business", 
+                rating: 4.7,
+                reviews: 892,
+                description: "了解投資決策背後的心理因素，避免常見的投資陷阱。行為經濟學視角下的投資智慧。",
+                badge: "專業",
+                inStock: true,
+                publishYear: 2024,
+                isbn: "9789862626399",
+                pages: 432,
+                publisher: "天下文化",
+                language: "繁體中文"
+            },
+            {
+                id: 15, 
+                title: "健康飲食指南", 
+                author: "麥可·波倫", 
+                price: 390, 
+                originalPrice: 480,
+                category: "health", 
+                rating: 4.3,
+                reviews: 445,
+                description: "科學飲食的完整指南，建立健康生活方式的營養知識。從食材選擇到烹飪方法的全方位建議。",
+                badge: "健康",
+                inStock: true,
+                publishYear: 2024,
+                isbn: "9789862625897",
+                pages: 352,
+                publisher: "天下文化",
+                language: "繁體中文"
+            },
+            {
+                id: 16, 
+                title: "量子物理學導論", 
+                author: "史蒂芬·霍金", 
+                price: 680, 
+                originalPrice: 800,
+                category: "science", 
+                rating: 4.6,
+                reviews: 234,
+                description: "深入淺出的量子物理學入門，探索微觀世界的奇妙法則。從量子力學基礎到現代應用的完整介紹。",
+                badge: "學術",
+                inStock: true,
+                publishYear: 2023,
+                isbn: "9789862651234",
+                pages: 448,
+                publisher: "天下文化",
+                language: "繁體中文"
+            },
+            {
+                id: 17, 
+                title: "教育心理學", 
+                author: "加德納", 
+                price: 420, 
+                originalPrice: 520,
+                category: "education", 
+                rating: 4.4,
+                reviews: 167,
+                description: "多元智能理論的創始人教你如何有效學習。探討不同學習風格與教學方法的配對。",
+                badge: "教育",
+                inStock: true,
+                publishYear: 2024,
+                isbn: "9789571198456",
+                pages: 384,
+                publisher: "五南",
+                language: "繁體中文"
+            },
+            {
+                id: 18, 
+                title: "區塊鏈革命", 
+                author: "唐·塔普斯科特", 
+                price: 550, 
+                originalPrice: 650,
+                category: "tech", 
+                rating: 4.3,
+                reviews: 289,
+                description: "區塊鏈技術如何重塑經濟與社會。從比特幣到智能合約，全面解析分布式帳本技術的應用前景。",
+                badge: "前沿",
+                inStock: true,
+                publishYear: 2024,
+                isbn: "9789864345678",
+                pages: 496,
+                publisher: "商周",
+                language: "繁體中文"
+            },
+            {
+                id: 19, 
+                title: "咖啡的一切", 
+                author: "詹姆斯·霍夫曼", 
+                price: 380, 
+                originalPrice: 450,
+                category: "health", 
+                rating: 4.5,
+                reviews: 456,
+                description: "世界咖啡大師的完整指南，從豆子到杯子的完美旅程。包含烘焙、沖煮、品嚐的專業知識。",
+                badge: "生活",
+                inStock: true,
+                publishYear: 2024,
+                isbn: "9789573287654",
+                pages: 288,
+                publisher: "皇冠",
+                language: "繁體中文"
+            },
+            {
+                id: 20, 
+                title: "數據科學實戰", 
+                author: "喬爾·格拉斯", 
+                price: 720, 
+                originalPrice: 850,
+                category: "tech", 
+                rating: 4.4,
+                reviews: 345,
+                description: "從零開始學習數據科學，涵蓋統計學、機器學習、數據視覺化等核心技能。Python實作案例豐富。",
+                badge: "實戰",
+                inStock: true,
+                publishYear: 2024,
+                isbn: "9789864389123",
+                pages: 576,
+                publisher: "歐萊禮",
+                language: "繁體中文"
+            }
+        ];
+
+        // 全域變數
+        let cart = [];
+        let wishlist = [];
+        let compareList = [];
+        let currentCategory = 'all';
+        let currentView = 'grid';
+        let currentPage = 1;
+        let itemsPerPage = 12;
+        let searchResults = [];
+        let userLevel = { level: 'Bronze', discount: 0, name: '青銅會員' };
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+        });
+
+        function initializeApp() {
+            displayBooks(books.slice(0, itemsPerPage));
+            updateAllDisplays();
+            setupEventListeners();
+            loadUserData();
+            checkPromotions();
+            animateStats();
+            console.log('🚀 Bibliotheca 購書平台已成功載入');
+            showNotification('歡迎來到 Bibliotheca！點擊書籍卡片可查看詳情 📚', 'success');
+        }
+
+        // 載入用戶資料
+        function loadUserData() {
+            try {
+                const savedCart = JSON.parse(localStorage?.getItem('cart') || '[]');
+                const savedWishlist = JSON.parse(localStorage?.getItem('wishlist') || '[]');
+                const savedCompare = JSON.parse(localStorage?.getItem('compareList') || '[]');
+                cart = savedCart;
+                wishlist = savedWishlist;
+                compareList = savedCompare;
+                updateAllDisplays();
+            } catch (error) {
+                console.warn('無法載入用戶資料:', error);
+            }
+        }
+
+        // 儲存用戶資料
+        function saveUserData() {
+            try {
+                if (typeof localStorage !== 'undefined') {
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    localStorage.setItem('wishlist', JSON.stringify(wishlist));
+                    localStorage.setItem('compareList', JSON.stringify(compareList));
+                }
+            } catch (error) {
+                console.warn('無法儲存用戶資料:', error);
+            }
+        }
+
+        // 設定事件監聽器
+        function setupEventListeners() {
+            // 滾動效果
+            window.addEventListener('scroll', handleScroll);
+            
+            // 搜尋輸入框即時搜尋
+            document.getElementById('searchInput').addEventListener('input', handleSearchInput);
+            
+            // 搜尋篩選器
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelector('.filter-btn.active').classList.remove('active');
+                    this.classList.add('active');
+                });
+            });
+            
+            // 鍵盤快捷鍵
+            document.addEventListener('keydown', handleKeyboard);
+            
+            // 統計數據點擊
+            document.querySelectorAll('.stat-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    this.style.transform = 'scale(1.1)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)';
+                    }, 200);
+                });
+            });
+        }
+
+        // 滾動處理
+        function handleScroll() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        }
+
+        // 即時搜尋處理
+        function handleSearchInput() {
+            const searchTerm = this.value.toLowerCase().trim();
+            if (searchTerm === '') {
+                filterBooks(currentCategory);
+            } else {
+                setTimeout(() => {
+                    searchBooks(false);
+                }, 300);
+            }
+        }
+
+        // 鍵盤快捷鍵處理
+        function handleKeyboard(e) {
+            switch(e.key) {
+                case 'Escape':
+                    closeAllPanels();
+                    break;
+                case 'c':
+                case 'C':
+                    if (e.ctrlKey || e.metaKey) {
+                        e.preventDefault();
+                        toggleCart();
+                    }
+                    break;
+                case 's':
+                case 'S':
+                    if (e.ctrlKey || e.metaKey) {
+                        e.preventDefault();
+                        toggleSearch();
+                    }
+                    break;
+                case 'Enter':
+                    if (document.activeElement === document.getElementById('searchInput')) {
+                        searchBooks();
+                    }
+                    break;
+            }
+        }
+
+        // 統計數據動畫
+        function animateStats() {
+            const stats = [
+                { id: 'totalBooks', target: 50000, suffix: '+' },
+                { id: 'totalReaders', target: 12000, suffix: '+' },
+                { id: 'totalCategories', target: 50, suffix: '+' }
+            ];
+
+            stats.forEach(stat => {
+                animateNumber(stat.id, stat.target, stat.suffix);
+            });
+        }
+
+        function animateNumber(elementId, target, suffix = '') {
+            const element = document.getElementById(elementId);
+            if (!element) return;
+            
+            let current = 0;
+            const increment = target / 100;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                element.textContent = Math.floor(current).toLocaleString() + suffix;
+            }, 20);
+        }
+
+        // 顯示書籍
+        function displayBooks(booksToShow) {
+            const booksGrid = document.getElementById('booksGrid');
+            booksGrid.innerHTML = '';
+
+            if (booksToShow.length === 0) {
+                booksGrid.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 4rem; color: var(--text-light);">
+                        <div style="font-size: 4rem; margin-bottom: 1rem;">📚</div>
+                        <h3>找不到相關書籍</h3>
+                        <p>請嘗試其他搜尋關鍵字或瀏覽不同分類</p>
+                        <button class="add-to-cart" onclick="filterBooks('all')" style="margin-top: 1rem;">
+                            瀏覽全部書籍
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            booksToShow.forEach(book => {
+                const isInWishlist = wishlist.some(item => item.id === book.id);
+                const isInCompare = compareList.some(item => item.id === book.id);
+                const discount = Math.round(((book.originalPrice - book.price) / book.originalPrice) * 100);
+                
+                const bookCard = document.createElement('div');
+                bookCard.className = `book-card ${currentView === 'list' ? 'list-view' : ''}`;
+                bookCard.onclick = function(e) {
+                    // 如果點擊的不是按鈕，則顯示書籍詳情
+                    if (!e.target.closest('button')) {
+                        showBookDetail(book.id);
+                    }
+                };
+                bookCard.innerHTML = `
+                    <div class="book-cover" style="background: ${getCategoryGradient(book.category)}">
+                        <button class="wishlist-btn-card ${isInWishlist ? 'active' : ''}" onclick="event.stopPropagation(); toggleWishlistItem(${book.id})" title="${isInWishlist ? '移除願望清單' : '加入願望清單'}">
+                            ${isInWishlist ? '❤️' : '🤍'}
+                        </button>
+                        <div class="book-badge">${book.badge}</div>
+                        <div>📖<br>${book.title}</div>
+                    </div>
+                    <div class="book-info">
+                        <div class="book-category">${getCategoryName(book.category)}</div>
+                        <div class="book-title">${book.title}</div>
+                        <div class="book-author">作者：${book.author}</div>
+                        <div class="book-rating">
+                            <div class="stars">${getStarRating(book.rating)}</div>
+                            <span class="rating-text">${book.rating} 分</span>
+                        </div>
+                        <div class="book-footer">
+                            <div class="book-price">
+                                NT$ ${book.price.toLocaleString()}
+                                <span class="price-original">NT$ ${book.originalPrice.toLocaleString()}</span>
+                            </div>
+                            <button class="add-to-cart" onclick="event.stopPropagation(); addToCart(${book.id})" title="加入購物車">
+                                🛒 加入購物車
+                            </button>
+                        </div>
+                    </div>
+                `;
+                booksGrid.appendChild(bookCard);
+            });
+
+            // 更新載入更多按鈕
+            updateLoadMoreButton();
+        }
+
+        // 更新載入更多按鈕
+        function updateLoadMoreButton() {
+            const loadMoreBtn = document.getElementById('loadMoreBtn');
+            const totalBooks = getCurrentBooks().length;
+            const displayedBooks = document.querySelectorAll('.book-card').length;
+            
+            if (displayedBooks >= totalBooks) {
+                loadMoreBtn.style.display = 'none';
+            } else {
+                loadMoreBtn.style.display = 'inline-block';
+                loadMoreBtn.textContent = `載入更多書籍 (還有 ${totalBooks - displayedBooks} 本)`;
+            }
+        }
+
+        // 獲取當前書籍列表
+        function getCurrentBooks() {
+            if (searchResults.length > 0) {
+                return searchResults;
+            }
+            return currentCategory === 'all' ? books : books.filter(book => book.category === currentCategory);
+        }
+
+        // 載入更多書籍
+        function loadMoreBooks() {
+            const currentBooks = getCurrentBooks();
+            const startIndex = currentPage * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const newBooks = currentBooks.slice(startIndex, endIndex);
+            
+            if (newBooks.length > 0) {
+                const existingBooks = getCurrentDisplayedBooks();
+                displayBooks([...existingBooks, ...newBooks]);
+                currentPage++;
+                showNotification(`已載入 ${newBooks.length} 本新書籍`, 'success');
+            }
+        }
+
+        // 獲取當前顯示的書籍
+        function getCurrentDisplayedBooks() {
+            const currentBooks = getCurrentBooks();
+            return currentBooks.slice(0, currentPage * itemsPerPage);
+        }
+
+        // 獲取分類漸層色彩
+        function getCategoryGradient(category) {
+            const gradients = {
+                'tech': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                'fiction': 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+                'business': 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+                'history': 'linear-gradient(135deg, #2c3e50 0%, #4a6741 100%)',
+                'art': 'linear-gradient(135deg, #f7971e 0%, #ffd200 100%)',
+                'health': 'linear-gradient(135deg, #56ab2f 0%, #a8e6cf 100%)',
+                'psychology': 'linear-gradient(135deg, #a855f7 0%, #e879f9 100%)',
+                'science': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                'education': 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)'
+            };
+            return gradients[category] || 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+        }
+
+        // 獲取分類名稱
+        function getCategoryName(category) {
+            const names = {
+                'tech': '科技程式',
+                'fiction': '文學小說',
+                'business': '商業理財',
+                'history': '歷史人文',
+                'art': '藝術設計',
+                'health': '健康生活',
+                'psychology': '心理學',
+                'science': '科學研究',
+                'education': '教育學習'
+            };
+            return names[category] || '其他';
+        }
+
+        // 獲取星級評分
+        function getStarRating(rating) {
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 >= 0.5;
+            let stars = '★'.repeat(fullStars);
+            if (hasHalfStar) stars += '☆';
+            stars += '☆'.repeat(5 - Math.ceil(rating));
+            return stars;
+        }
+
+        // 分類篩選
+        function filterBooks(category) {
+            currentCategory = category;
+            currentPage = 1;
+            searchResults = [];
+            
+            const filteredBooks = category === 'all' ? books : books.filter(book => book.category === category);
+            displayBooks(filteredBooks.slice(0, itemsPerPage));
+
+            // 更新分類標籤樣式
+            document.querySelectorAll('.category-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelector(`[data-category="${category}"]`).classList.add('active');
+
+            // 顯示通知
+            const categoryName = category === 'all' ? '全部書籍' : getCategoryName(category);
+            showNotification(`已切換到 ${categoryName} 分類`, 'success');
+        }
+
+        // 搜尋功能
+        function searchBooks(showLoading = true) {
+            const searchBtn = document.querySelector('.search-btn');
+            const searchText = searchBtn.querySelector('.search-text');
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+            const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
+            
+            if (!searchTerm) {
+                searchResults = [];
+                filterBooks(currentCategory);
+                return;
+            }
+
+            // 顯示載入狀態
+            if (showLoading) {
+                searchText.innerHTML = '<span class="loading"></span>';
+            }
+            
+            setTimeout(() => {
+                let filteredBooks = [];
+                
+                if (activeFilter === 'all') {
+                    filteredBooks = books.filter(book => 
+                        book.title.toLowerCase().includes(searchTerm) || 
+                        book.author.toLowerCase().includes(searchTerm) ||
+                        book.description.toLowerCase().includes(searchTerm) ||
+                        book.isbn.toLowerCase().includes(searchTerm)
+                    );
+                } else if (activeFilter === 'title') {
+                    filteredBooks = books.filter(book => 
+                        book.title.toLowerCase().includes(searchTerm)
+                    );
+                } else if (activeFilter === 'author') {
+                    filteredBooks = books.filter(book => 
+                        book.author.toLowerCase().includes(searchTerm)
+                    );
+                } else if (activeFilter === 'isbn') {
+                    filteredBooks = books.filter(book => 
+                        book.isbn.toLowerCase().includes(searchTerm)
+                    );
+                }
+                
+                searchResults = filteredBooks;
+                currentPage = 1;
+                displayBooks(filteredBooks.slice(0, itemsPerPage));
+                
+                if (showLoading) {
+                    searchText.textContent = '搜尋';
+                }
+                
+                showNotification(`找到 ${filteredBooks.length} 本相關書籍`, 'success');
+            }, showLoading ? 500 : 0);
+        }
+
+        // 書籍排序
+        function sortBooks(criteria) {
+            const currentBooks = getCurrentBooks();
+            let sortedBooks = [...currentBooks];
+            
+            switch(criteria) {
+                case 'price-low':
+                    sortedBooks.sort((a, b) => a.price - b.price);
+                    break;
+                case 'price-high':
+                    sortedBooks.sort((a, b) => b.price - a.price);
+                    break;
+                case 'rating':
+                    sortedBooks.sort((a, b) => b.rating - a.rating);
+                    break;
+                case 'newest':
+                    sortedBooks.sort((a, b) => b.publishYear - a.publishYear);
+                    break;
+                case 'popular':
+                    sortedBooks.sort((a, b) => b.reviews - a.reviews);
+                    break;
+                case 'discount':
+                    sortedBooks.sort((a, b) => {
+                        const discountA = (a.originalPrice - a.price) / a.originalPrice;
+                        const discountB = (b.originalPrice - b.price) / b.originalPrice;
+                        return discountB - discountA;
+                    });
+                    break;
+                default:
+                    sortedBooks = currentBooks;
+            }
+            
+            if (searchResults.length > 0) {
+                searchResults = sortedBooks;
+            } else if (currentCategory === 'all') {
+                // 不修改原始 books 陣列
+            } else {
+                // 篩選後的結果
+            }
+            
+            currentPage = 1;
+            displayBooks(sortedBooks.slice(0, itemsPerPage));
+            showNotification(`已按${getSortName(criteria)}排序`, 'success');
+        }
+
+        function getSortName(criteria) {
+            const names = {
+                'price-low': '價格低到高',
+                'price-high': '價格高到低',
+                'rating': '評分高到低',
+                'newest': '出版時間',
+                'popular': '熱門程度',
+                'discount': '折扣幅度'
+            };
+            return names[criteria] || '預設';
+        }
+
+        // 切換檢視模式
+        function toggleView(view) {
+            currentView = view;
+            const booksGrid = document.getElementById('booksGrid');
+            
+            if (view === 'list') {
+                booksGrid.classList.add('list-view');
+            } else {
+                booksGrid.classList.remove('list-view');
+            }
+            
+            // 更新按鈕狀態
+            document.querySelectorAll('.view-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[onclick="toggleView('${view}')"]`).classList.add('active');
+            
+            // 重新渲染書籍
+            const currentBooks = getCurrentDisplayedBooks();
+            displayBooks(currentBooks);
+            
+            showNotification(`已切換到${view === 'grid' ? '網格' : '列表'}檢視`, 'success');
+        }
+
+        // 加入購物車
+        function addToCart(bookId) {
+            const book = books.find(b => b.id === bookId);
+            if (!book) return;
+            
+            const existingItem = cart.find(item => item.id === bookId);
+
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({...book, quantity: 1});
+            }
+
+            updateAllDisplays();
+            saveUserData();
+            
+            // 更新按鈕狀態
+            const button = event.target;
+            const originalContent = button.innerHTML;
+            button.classList.add('added');
+            button.innerHTML = '✓';
+            
+            setTimeout(() => {
+                button.classList.remove('added');
+                button.innerHTML = originalContent;
+            }, 2000);
+
+            showNotification(`《${book.title}》已加入購物車`, 'success');
+        }
+
+        // 願望清單功能
+        function toggleWishlistItem(bookId) {
+            const book = books.find(b => b.id === bookId);
+            if (!book) return;
+            
+            const existingIndex = wishlist.findIndex(item => item.id === bookId);
+
+            if (existingIndex !== -1) {
+                wishlist.splice(existingIndex, 1);
+                showNotification(`《${book.title}》已從願望清單移除`, 'success');
+            } else {
+                wishlist.push(book);
+                showNotification(`《${book.title}》已加入願望清單`, 'success');
+            }
+
+            updateAllDisplays();
+            saveUserData();
+            
+            // 重新渲染當前顯示的書籍以更新心形圖標
+            const currentBooks = getCurrentDisplayedBooks();
+            displayBooks(currentBooks);
+        }
+
+        // 比較功能
+        function toggleCompareItem(bookId) {
+            const book = books.find(b => b.id === bookId);
+            if (!book) return;
+            
+            const existingIndex = compareList.findIndex(item => item.id === bookId);
+
+            if (existingIndex !== -1) {
+                compareList.splice(existingIndex, 1);
+                showNotification(`《${book.title}》已從比較清單移除`, 'success');
+            } else {
+                if (compareList.length >= 4) {
+                    showNotification('最多只能比較 4 本書', 'error');
+                    return;
+                }
+                compareList.push(book);
+                showNotification(`《${book.title}》已加入比較`, 'success');
+            }
+
+            updateAllDisplays();
+            saveUserData();
+            
+            // 重新渲染當前顯示的書籍
+            const currentBooks = getCurrentDisplayedBooks();
+            displayBooks(currentBooks);
+            
+            // 更新比較面板
+            updateComparePanel();
+        }
+
+        // 更新所有顯示
+        function updateAllDisplays() {
+            updateCartDisplay();
+            updateWishlistDisplay();
+            updateCompareDisplay();
+            updateUserLevel();
+        }
+
+        // 更新購物車顯示
+        function updateCartDisplay() {
+            const cartCount = document.getElementById('cartCount');
+            const cartItems = document.getElementById('cartItems');
+            const cartSummary = document.getElementById('cartSummary');
+            const emptyCart = document.getElementById('emptyCart');
+
+            // 更新購物車數量
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCount.textContent = totalItems;
+
+            if (cart.length === 0) {
+                emptyCart.style.display = 'block';
+                cartSummary.style.display = 'none';
+                cartItems.innerHTML = emptyCart.outerHTML;
+                return;
+            }
+
+            emptyCart.style.display = 'none';
+            cartSummary.style.display = 'block';
+
+            // 更新購物車項目
+            cartItems.innerHTML = '';
+            cart.forEach(item => {
+                const cartItem = document.createElement('div');
+                cartItem.className = 'cart-item';
+                cartItem.innerHTML = `
+                    <div class="cart-item-cover" style="background: ${getCategoryGradient(item.category)}">
+                        📖
+                    </div>
+                    <div class="cart-item-info">
+                        <div class="cart-item-title">${item.title}</div>
+                        <div class="cart-item-author">作者：${item.author}</div>
+                        <div class="cart-item-price">NT$ ${(item.price * item.quantity).toLocaleString()}</div>
+                        <div class="quantity-controls">
+                            <button class="quantity-btn" onclick="updateQuantity(${item.id}, -1)">-</button>
+                            <span style="margin: 0 15px; font-weight: 600;">${item.quantity}</span>
+                            <button class="quantity-btn" onclick="updateQuantity(${item.id}, 1)">+</button>
+                            <button class="remove-btn" onclick="removeFromCart(${item.id})">移除</button>
+                        </div>
+                    </div>
+                `;
+                cartItems.appendChild(cartItem);
+            });
+
+            // 更新價格摘要
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const memberDiscount = Math.floor(subtotal * userLevel.discount);
+            const couponDiscount = 0; // 可以實作優惠券功能
+            const total = subtotal - memberDiscount - couponDiscount;
+
+            document.getElementById('subtotal').textContent = `NT$ ${subtotal.toLocaleString()}`;
+            document.getElementById('memberDiscount').textContent = `-NT$ ${memberDiscount.toLocaleString()}`;
+            document.getElementById('couponDiscount').textContent = `-NT$ ${couponDiscount.toLocaleString()}`;
+            document.getElementById('totalPrice').textContent = `NT$ ${total.toLocaleString()}`;
+        }
+
+        // 更新願望清單顯示
+        function updateWishlistDisplay() {
+            const wishlistCount = document.getElementById('wishlistCount');
+            wishlistCount.textContent = wishlist.length;
+        }
+
+        // 更新比較顯示
+        function updateCompareDisplay() {
+            const compareCount = document.getElementById('compareCount');
+            compareCount.textContent = compareList.length;
+        }
+
+        // 更新會員等級
+        function updateUserLevel() {
+            const totalSpent = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            
+            if (totalSpent >= 20000) {
+                userLevel = { level: 'Diamond', discount: 0.2, name: '鑽石會員' };
+            } else if (totalSpent >= 10000) {
+                userLevel = { level: 'Platinum', discount: 0.15, name: '白金會員' };
+            } else if (totalSpent >= 5000) {
+                userLevel = { level: 'Gold', discount: 0.1, name: '黃金會員' };
+            } else if (totalSpent >= 2000) {
+                userLevel = { level: 'Silver', discount: 0.05, name: '白銀會員' };
+            } else {
+                userLevel = { level: 'Bronze', discount: 0, name: '青銅會員' };
+            }
+        }
+
+        // 更新商品數量
+        function updateQuantity(bookId, change) {
+            const item = cart.find(item => item.id === bookId);
+            if (item) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
+                    removeFromCart(bookId);
+                } else {
+                    updateAllDisplays();
+                    saveUserData();
+                }
+            }
+        }
+
+        // 從購物車移除商品
+        function removeFromCart(bookId) {
+            const book = cart.find(item => item.id === bookId);
+            cart = cart.filter(item => item.id !== bookId);
+            updateAllDisplays();
+            saveUserData();
+            showNotification(`《${book.title}》已從購物車移除`, 'success');
+        }
+
+        // 書籍詳情
+        function showBookDetail(bookId) {
+            const book = books.find(b => b.id === bookId);
+            if (!book) return;
+            
+            const recommendations = getRecommendations(bookId);
+            const discount = Math.round(((book.originalPrice - book.price) / book.originalPrice) * 100);
+            
+            const modalBody = document.getElementById('bookModalBody');
+            modalBody.innerHTML = `
+                <div class="book-detail">
+                    <div class="book-detail-cover" style="background: ${getCategoryGradient(book.category)}">
+                        📖<br>${book.title}
+                    </div>
+                    <div class="book-detail-info">
+                        <div class="book-detail-title">${book.title}</div>
+                        <div class="book-detail-author">作者：${book.author}</div>
+                        <div class="book-rating">
+                            <div class="stars">${getStarRating(book.rating)}</div>
+                            <span class="rating-text">${book.rating} 分 (${book.reviews.toLocaleString()} 則評價)</span>
+                        </div>
+                        <div class="book-detail-meta">
+                            <div class="meta-row">
+                                <span class="meta-label">出版社：</span>
+                                <span class="meta-value">${book.publisher}</span>
+                            </div>
+                            <div class="meta-row">
+                                <span class="meta-label">出版年份：</span>
+                                <span class="meta-value">${book.publishYear}</span>
+                            </div>
+                            <div class="meta-row">
+                                <span class="meta-label">頁數：</span>
+                                <span class="meta-value">${book.pages} 頁</span>
+                            </div>
+                            <div class="meta-row">
+                                <span class="meta-label">ISBN：</span>
+                                <span class="meta-value">${book.isbn}</span>
+                            </div>
+                            <div class="meta-row">
+                                <span class="meta-label">語言：</span>
+                                <span class="meta-value">${book.language}</span>
+                            </div>
+                            <div class="meta-row">
+                                <span class="meta-label">分類：</span>
+                                <span class="meta-value">${getCategoryName(book.category)}</span>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;">
+                            <div class="book-price" style="margin: 0;">
+                                NT$ ${book.price.toLocaleString()}
+                                <span class="price-original">NT$ ${book.originalPrice.toLocaleString()}</span>
+                                <span class="discount-badge">${discount}% OFF</span>
+                            </div>
+                            <button class="add-to-cart" onclick="addToCart(${book.id}); closeModal('bookModal');">
+                                🛒 加入購物車
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="book-detail-description">
+                    <h4 style="margin-bottom: 1rem; color: var(--text-dark);">📖 書籍簡介</h4>
+                    <p>${book.description}</p>
+                </div>
+                <div class="recommendations">
+                    <h4 class="recommendations-title">🔥 相關推薦</h4>
+                    <div class="recommendations-grid">
+                        ${recommendations.map(rec => `
+                            <div class="recommendation-item" onclick="showBookDetail(${rec.id}); closeModal('bookModal');">
+                                <div class="recommendation-cover" style="background: ${getCategoryGradient(rec.category)}">
+                                    📖<br>${rec.title}
+                                </div>
+                                <div class="recommendation-title">${rec.title}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            
+            showModal('bookModal');
+        }
+
+        // 書籍推薦系統
+        function getRecommendations(bookId) {
+            const currentBook = books.find(b => b.id === bookId);
+            if (!currentBook) return [];
+            
+            // 基於分類和評分的推薦算法
+            return books
+                .filter(book => book.id !== bookId && book.category === currentBook.category)
+                .sort((a, b) => b.rating - a.rating)
+                .slice(0, 4);
+        }
+
+        // 比較面板
+        function updateComparePanel() {
+            const compareGrid = document.getElementById('compareGrid');
+            compareGrid.innerHTML = '';
+            
+            if (compareList.length === 0) {
+                compareGrid.innerHTML = `
+                    <div style="text-align: center; padding: 2rem; color: var(--text-light); width: 100%;">
+                        <div style="font-size: 2rem; margin-bottom: 1rem;">⚖️</div>
+                        <h3>比較清單是空的</h3>
+                        <p>選擇書籍加入比較，最多可比較 4 本書</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            compareList.forEach(book => {
+                const compareItem = document.createElement('div');
+                compareItem.className = 'compare-item';
+                compareItem.innerHTML = `
+                    <div class="compare-item-cover" style="background: ${getCategoryGradient(book.category)}">
+                        📖
+                    </div>
+                    <div class="compare-item-title">${book.title}</div>
+                    <div class="compare-item-price">NT$ ${book.price.toLocaleString()}</div>
+                    <div class="compare-item-rating">⭐ ${book.rating} 分</div>
+                    <div style="margin-top: 1rem;">
+                        <button class="remove-btn" onclick="toggleCompareItem(${book.id})" style="width: 100%;">
+                            移除
+                        </button>
+                    </div>
+                `;
+                compareGrid.appendChild(compareItem);
+            });
+        }
+
+        // 面板控制
+        function toggleCart() {
+            const cartPanel = document.getElementById('cartPanel');
+            const overlay = document.getElementById('overlay');
+            
+            cartPanel.classList.toggle('open');
+            overlay.classList.toggle('active');
+            
+            if (cartPanel.classList.contains('open')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        function toggleCompare() {
+            const comparePanel = document.getElementById('comparePanel');
+            
+            comparePanel.classList.toggle('open');
+            
+            if (comparePanel.classList.contains('open')) {
+                updateComparePanel();
+            }
+        }
+
+        function clearCompare() {
+            compareList = [];
+            updateAllDisplays();
+            saveUserData();
+            updateComparePanel();
+            showNotification('比較清單已清空', 'success');
+        }
+
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const overlay = document.getElementById('overlay');
+            
+            mobileMenu.classList.toggle('open');
+            overlay.classList.toggle('active');
+        }
+
+        function showModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function closeAllPanels() {
+            const cartPanel = document.getElementById('cartPanel');
+            const comparePanel = document.getElementById('comparePanel');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const overlay = document.getElementById('overlay');
+            const modals = document.querySelectorAll('.modal');
+            
+            cartPanel.classList.remove('open');
+            comparePanel.classList.remove('open');
+            mobileMenu.classList.remove('open');
+            overlay.classList.remove('active');
+            modals.forEach(modal => modal.classList.remove('active'));
+            document.body.style.overflow = 'auto';
+        }
+
+        // 搜尋切換
+        function toggleSearch() {
+            const searchInput = document.getElementById('searchInput');
+            searchInput.focus();
+            searchInput.select();
+            // 平滑滾動到搜尋區域
+            document.querySelector('.hero').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // 統計資料顯示
+        function showStats(type) {
+            const stats = {
+                'books': `📚 我們精選了超過 50,000 本書籍，涵蓋各個領域的優質內容。從經典文學到前沿科技，滿足每位讀者的需求。`,
+                'readers': `👥 已有超過 12,000 位讀者選擇我們，平均每月新增 800+ 位會員。98% 的客戶對我們的服務感到滿意。`,
+                'categories': `🗂️ 我們提供 50+ 個專業分類，包含文學、商業、科技、藝術等各個領域，讓您輕鬆找到感興趣的書籍。`
+            };
+            
+            if (stats[type]) {
+                showNotification(stats[type], 'success');
+            }
+        }
+
+        // 用戶選單
+        function showUserMenu() {
+            const userActions = [
+                '👤 個人資料',
+                '📚 我的書架',
+                '🛒 訂單歷史', 
+                '❤️ 願望清單',
+                '⚖️ 比較清單',
+                '🎯 個人化推薦',
+                '🏆 會員等級',
+                '💰 積分兌換',
+                '⚙️ 設定',
+                '📞 客服中心',
+                '🚪 登出'
+            ];
+            
+            const choice = prompt('🔧 會員中心\n請選擇功能：\n' + userActions.map((action, index) => `${index + 1}. ${action}`).join('\n'));
+            
+            if (choice) {
+                const index = parseInt(choice) - 1;
+                if (index >= 0 && index < userActions.length) {
+                    handleUserAction(index);
+                }
+            }
+        }
+
+        function handleUserAction(index) {
+            const actions = [
+                () => showNotification(`👤 當前會員等級：${userLevel.name}，享受 ${Math.round(userLevel.discount * 100)}% 折扣`, 'success'),
+                () => showNotification('📚 我的書架功能開發中，敬請期待！', 'warning'),
+                () => showNotification('🛒 訂單歷史功能開發中，敬請期待！', 'warning'),
+                () => showNotification(`❤️ 您的願望清單中有 ${wishlist.length} 本書`, 'success'),
+                () => showNotification(`⚖️ 您的比較清單中有 ${compareList.length} 本書`, 'success'),
+                () => showNotification('🎯 個人化推薦功能開發中，敬請期待！', 'warning'),
+                () => showNotification(`🏆 會員等級：${userLevel.name}\n享受專屬折扣：${Math.round(userLevel.discount * 100)}%`, 'success'),
+                () => showNotification('💰 積分兌換功能開發中，敬請期待！', 'warning'),
+                () => showNotification('⚙️ 設定功能開發中，敬請期待！', 'warning'),
+                () => openCustomerService(),
+                () => showNotification('👋 感謝您的使用，期待下次見面！', 'success')
+            ];
+            
+            if (actions[index]) {
+                actions[index]();
+            }
+        }
+
+        // 客戶服務
+        function openCustomerService() {
+            const services = [
+                '💬 線上客服：點此開始對話',
+                '📞 電話客服：0800-123-456',
+                '📧 電子郵件：service@bibliotheca.com',
+                '❓ 常見問題：查看解答',
+                '📋 退換貨政策：30天無條件退換',
+                '🚚 配送資訊：24小時快速出貨',
+                '💳 付款方式：支援多種付款方式',
+                '🔒 隱私政策：保護您的個人資料'
+            ];
+            
+            alert('🔧 客戶服務中心\n\n' + services.join('\n\n') + '\n\n營業時間：週一至週日 09:00-21:00');
+        }
+
+        // 結帳功能
+        function checkout() {
+            if (cart.length === 0) {
+                showNotification('購物車是空的！', 'error');
+                return;
+            }
+
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const memberDiscount = Math.floor(subtotal * userLevel.discount);
+            const total = subtotal - memberDiscount;
+            const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            
+            // 模擬結帳過程
+            const checkoutBtn = document.querySelector('.checkout-btn');
+            checkoutBtn.disabled = true;
+            checkoutBtn.innerHTML = '<span class="loading"></span> 處理中...';
+            
+            setTimeout(() => {
+                const orderDetails = cart.map(item => `• ${item.title} x${item.quantity}`).join('\n');
+                
+                if (confirm(`🛒 確認結帳\n\n📚 購買書籍：\n${orderDetails}\n\n💰 訂單摘要：\n商品小計：NT$ ${subtotal.toLocaleString()}\n會員折扣：-NT$ ${memberDiscount.toLocaleString()}\n總計：NT$ ${total.toLocaleString()}\n\n🚚 預計 1-2 個工作天送達\n🎯 會員等級：${userLevel.name}\n\n確定要完成購買嗎？`)) {
+                    // 模擬訂單成功
+                    const orderNumber = 'BK' + Date.now();
+                    showNotification('🎉 訂單成立！感謝您的購買', 'success');
+                    cart = [];
+                    updateAllDisplays();
+                    saveUserData();
+                    closeAllPanels();
+                    
+                    // 顯示訂單確認
+                    setTimeout(() => {
+                        alert(`📧 訂單確認\n\n✅ 訂單已成立\n📦 訂單編號：${orderNumber}\n💰 付款金額：NT$ ${total.toLocaleString()}\n🚚 預計送達：1-2 個工作天\n📧 確認信已發送至您的信箱\n\n感謝您選擇 Bibliotheca！`);
+                    }, 1000);
+                } else {
+                    checkoutBtn.disabled = false;
+                    checkoutBtn.innerHTML = '💳 立即結帳';
+                }
+            }, 1500);
+        }
+
+        // 促銷活動檢查
+        function checkPromotions() {
+            const now = new Date();
+            const hour = now.getHours();
+            const day = now.getDay();
+            
+            setTimeout(() => {
+                if (hour >= 14 && hour <= 16) {
+                    showNotification('🎉 午茶時光特惠！現在購買享額外 5% 折扣', 'success');
+                }
+                
+                if (day === 0) {
+                    showNotification('🌟 週日驚喜！全館免運費，再享會員折扣', 'success');
+                }
+                
+                if (day === 5) {
+                    showNotification('🔥 週五瘋狂！精選書籍限時優惠中', 'success');
+                }
+            }, 3000);
+        }
+
+        // 通知系統
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notificationText');
+            
+            notificationText.textContent = message;
+            notification.className = `notification ${type}`;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 4000);
+        }
+
+        // 定期檢查促銷
+        setInterval(checkPromotions, 300000); // 每5分鐘檢查一次
+
+        // 快捷鍵提示
+        console.log('⌨️  快捷鍵提示：');
+        console.log('Ctrl+C: 開啟購物車');
+        console.log('Ctrl+S: 聚焦搜尋框');
+        console.log('ESC: 關閉所有面板');
+        console.log('Enter: 確認搜尋（在搜尋框中）');
+    </script>
+</body>
+</html>
